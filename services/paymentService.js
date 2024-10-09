@@ -10,10 +10,19 @@ class PaymentService {
         this.Produtos = ProdutosModel;
     }
 
-    // destruir carrinho
-    async DestroyCart(IdCart) {
+    // Atualizar estoque e destruir carrinho
+    async updateEstoqueDestroyCart(IdCart) {
         try {
-            
+            const cartItems = await this.CartItem.findAll({ where: { IdCart } }); //encontra os itens
+
+            for (const item of cartItems) {
+                const produto = await this.Produtos.findByPk(item.IdProduto); //encntra o produto correspondente ao carrinho
+                if (produto) {
+                    produto.estoque -= item.quantidade;
+                    await produto.save(); // salva nova quantidade no estoque
+                }
+            }
+
             await this.CartItem.destroy({ //remove itens do carrinho
                 where: { IdCart }
             });
@@ -42,7 +51,7 @@ class PaymentService {
                 metodoPagamento: 'credito' // add método de pagamento
             });
 
-            await this.DestroyCart(cart.id);
+            await this.updateEstoqueDestroyCart(cart.id);
 
             return resultadoPagamento;
 
@@ -66,7 +75,7 @@ class PaymentService {
                 metodoPagamento: 'pix' // add método de pagamento
             });
 
-            await this.DestroyCart(cart.id);
+            await this.updateEstoqueDestroyCart(cart.id);
 
             return resultadoPagamento;
 

@@ -50,9 +50,7 @@ class CartService {
 
             cart.valorTotal += cartItem.valor;  // atualiza o valorTotal
             await cart.save();
-
-            produto.estoque -= quantidade; //como adicionou o produto, retira do estoque
-            await produto.save();            
+             
 
             return cartItem;
 
@@ -63,9 +61,7 @@ class CartService {
 
     //remover produto
     async remove(IdProduto, IdUser) {
-        try {
-
-            const produto = await this.Produtos.findByPk(IdProduto);
+        try {         
 
             let cart = await this.Cart.findOne({
                 where: { IdUser }                   // busca o carrinho do User
@@ -89,8 +85,7 @@ class CartService {
             }
             await cart.save();
 
-            produto.estoque += 1; //como retirou o produto, adiciona dnv no estoque
-            await produto.save();
+           
 
         } catch (error) {
             throw error;
