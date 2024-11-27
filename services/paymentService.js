@@ -85,14 +85,12 @@ class PaymentService {
     }
 
     // Visualizar transação
-    async view(transacaoId, IdUser) {
+    async listAll(IdUser) {
         try {
-            const transacao = await this.Payment.findOne({
-                where: { id: transacaoId, IdUser: IdUser }  //econtra a transação pelo id passado no url e pelo id do user do token
+            const transacoes = await this.Payment.findAll({
+                where: { IdUser } // Busca todas as transações do usuário
             });
-            if (!transacao) throw new Error('Transação não encontrada');
-            return transacao;
-
+            return transacoes;
         } catch (error) {
             throw error;
         }

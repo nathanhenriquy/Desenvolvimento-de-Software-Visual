@@ -36,18 +36,18 @@ class paymentController {
     }
 
     // ver transação
-    async viewTransacao(req, res) {
+    async viewAllTransacoes(req, res) {
         try {
-            const { transacaoId } = req.params;
-            const IdUser = req.user.id; 
-
-            const transacao = await this.paymentService.view(transacaoId, IdUser);
-            res.status(200).json(transacao);
-
+            const IdUser = req.user.id;
+            const transacoes = await this.paymentService.listAll(IdUser);
+            
+            if (!transacoes || transacoes.length === 0) {
+                return res.status(404).json({ message: 'Nenhuma transação encontrada.' });
+            }
+    
+            res.status(200).json(transacoes);
         } catch (error) {
-            res
-                .status(500)
-                .json({ error: 'Erro para ver transacao' });
+            res.status(500).json({ error: 'Erro ao buscar transações.' });
         }
     }
 }

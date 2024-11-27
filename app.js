@@ -3,6 +3,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var cors = require('cors'); // import do cors
+
 // Importando o Sequelize e o modelo User
 var sequelize = require('./models').sequelize;
 //var User = require('./models/user')(sequelize);
@@ -19,6 +21,12 @@ var paymentRouter = require('./routes/payment'); // para a rota payment ./routes
 
 
 var app = express(); // ativa a API com o express
+
+app.use(cors({
+    origin: 'http://localhost:3000', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true // se precisar enviar cookies ou autenticação
+}));
 
 
 app.use(logger('dev'));

@@ -17,7 +17,8 @@ class cartController {
         } catch (error) {
             res
                 .status(500)
-                .json({ error: 'Erro ao adicionar item ' });          
+                .json({ error: 'Erro ao adicionar item ' });  
+                console.error('Erro ao adicionar ao carrinho:', error);     
         }
     }
 
@@ -45,7 +46,7 @@ class cartController {
         try {
             const IdUser = req.user.id;
             const cart = await this.cartService.view(IdUser);
-            res.status(200).json(cart);
+            res.status(200).json(cart.cartItens);   
             
         } catch (error) {
             res

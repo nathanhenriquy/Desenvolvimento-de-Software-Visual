@@ -26,8 +26,8 @@ router.post('/pix', auth.verifyToken, async (req, res) => {
 });
 
 // Rota para visualizar transação
-router.get('/transacao/:transacaoId', auth.verifyToken, async (req, res) => {
-    paymentController.viewTransacao(req, res);
+router.get('/transacoes', auth.verifyToken, async (req, res) => {
+    paymentController.viewAllTransacoes(req, res);
 });
 
 module.exports = router;

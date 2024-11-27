@@ -14,9 +14,12 @@ class CartService {
         try {
 
             const produto = await this.Produtos.findByPk(IdProduto);
+            if (!produto) {
+                throw new Error('Produto não encontrado');
+            }
 
-            if (produto.estoque < quantidade) { //verifica se tem estoque para add item, caso não vai para o erro do Controller
-                throw error;
+            if (produto.estoque < quantidade) {
+                throw new Error('Estoque insuficiente');
             }
 
             let cart = await this.Cart.findOne({
@@ -50,7 +53,7 @@ class CartService {
 
             cart.valorTotal += cartItem.valor;  // atualiza o valorTotal
             await cart.save();
-             
+
 
             return cartItem;
 
@@ -61,7 +64,7 @@ class CartService {
 
     //remover produto
     async remove(IdProduto, IdUser) {
-        try {         
+        try {
 
             let cart = await this.Cart.findOne({
                 where: { IdUser }                   // busca o carrinho do User
@@ -73,7 +76,7 @@ class CartService {
             });
 
             if (cartItem.quantidade > 1) { // caso tenha mais de um desse item, apenas subtrai a quantidade e valor
-                cart.valorTotal -= (await this.Produtos.findByPk(IdProduto)).preco; 
+                cart.valorTotal -= (await this.Produtos.findByPk(IdProduto)).preco;
                 cartItem.quantidade -= 1;
                 cartItem.valor = cartItem.quantidade * (await this.Produtos.findByPk(IdProduto)).preco;
                 await cartItem.save();
@@ -85,7 +88,7 @@ class CartService {
             }
             await cart.save();
 
-           
+
 
         } catch (error) {
             throw error;
