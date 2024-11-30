@@ -16,6 +16,7 @@ var usersRouter = require('./routes/users'); // para a rota users ./routes/users
 var produtosRouter = require('./routes/produtos');  // para a rota produtos ./routes/produtos.js
 var cartRouter = require('./routes/cart'); // para a rota produtos ./routes/cart.js
 var paymentRouter = require('./routes/payment'); // para a rota payment ./routes/payment.js
+var fornecedorRouter = require('./routes/fornecedor'); // para a rota fornecedor ./routes/fornecedor.js
 
 
 
@@ -42,6 +43,7 @@ app.use('/users', usersRouter); //cria a rota app/users
 app.use('/produtos', produtosRouter); //cria a rota app/produtos
 app.use('/cart', cartRouter); //cria a rota app/cart
 app.use('/payment', paymentRouter); //cria a rota app/payment
+app.use('/fornecedor', fornecedorRouter); //cria a rota app/fornecedor
 
 
 

@@ -33,6 +33,6 @@ module.exports = (sequelize) => {
      
 
     });
-    return Produtos;
+    return Fornecedor;
 
 };
